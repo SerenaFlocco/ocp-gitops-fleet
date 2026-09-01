@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: hcp-fleet-manager
+  namespace: openshift-gitops
+spec:
+  generators:
+    - git:
+        repoURL: 'https://github.com/SerenaFlocco/ocp-gitops-fleet.git'
+        revision: HEAD
+        directories:
+          - path: overlays/*
+  template:
+    metadata:
+      name: '{{path.basename}}'
+    spec:
+      project: hcp-fleet-project
+      source:
+        repoURL: 'https://github.com/SerenaFlocco/ocp-gitops-fleet.git'
+        targetRevision: HEAD
+        path: '{{path}}'
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: clusters
+      syncPolicy:
+        automated:
+          prune: false
+          selfHeal: true

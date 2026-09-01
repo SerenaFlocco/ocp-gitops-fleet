@@ -1,0 +1,34 @@
+apiVersion: cluster.open-cluster-management.io/v1
+kind: ManagedCluster
+metadata:
+  name: base-cluster
+  annotations:
+    import.open-cluster-management.io/hosting-cluster-name: local-cluster
+    import.open-cluster-management.io/klusterlet-deploy-mode: Hosted
+    open-cluster-management/created-via: hypershift
+  labels:
+    cloud: BareMetal
+    vendor: OpenShift
+    cluster.open-cluster-management.io/clusterset: default
+spec:
+  hubAcceptsClient: true
+---
+apiVersion: agent.open-cluster-management.io/v1
+kind: KlusterletAddonConfig
+metadata:
+  name: base-cluster
+  namespace: base-cluster
+spec:
+  clusterName: base-cluster
+  clusterNamespace: base-cluster
+  clusterLabels:
+    cloud: BareMetal
+    vendor: OpenShift
+  applicationManager:
+    enabled: true
+  policyController:
+    enabled: true
+  searchCollector:
+    enabled: true
+  certPolicyController:
+    enabled: true
