@@ -1,0 +1,22 @@
+clusterName: ocp-dev-01
+ocpVersion: 4.20.21-multi
+channel: fast-4.20
+dns:
+  baseDomain: apps.mydomain.local
+etcd:
+  storageClass: ocs-storagecluster-ceph-rbd
+  size: 8Gi
+workerReplicas: 3
+compute:
+  cores: 12
+  memory: 64Gi
+  diskSize: 250Gi
+  storageClass: ocs-storagecluster-ceph-rbd
+network:
+  clusterCidr: 10.128.0.0/14
+  serviceCidr: 172.30.0.0/16
+  vlan: vlan-123
+proxy:
+  http: http://proxy.enterprise.lan:8080
+  https: http://proxy.enterprise.lan:8080
+  noProxy: .mydomain.local,10.28.0.0/14,172.30.0.0/16,192.168.1.0/24,localhost
