@@ -1,0 +1,66 @@
+apiVersion: hypershift.openshift.io/v1beta1
+kind: HostedCluster
+metadata:
+  name: {{ .Values.clusterName }}
+  namespace: clusters
+  labels:
+    cluster.open-cluster-management.io/clusterset: {{ .Values.clusterSet | default "default" }}
+spec:
+  autoscaling:
+    scaling: ScaleUpAndScaleDown
+  channel: {{ .Values.channel }}
+  infraID: {{ .Values.clusterName }}
+  infrastructureAvailabilityPolicy: HighlyAvailable
+  controllerAvailabilityPolicy: HighlyAvailable
+  dns:
+    baseDomain: {{ .Values.dns.baseDomain }}
+  etcd:
+    managed:
+      storage:
+        type: PersistentVolume
+        persistentVolume:
+          size: {{ .Values.etcd.size | default "8Gi" }}
+          storageClassName: {{ .Values.etcd.storageClass }}
+    managementType: Managed
+  networking:
+    networkType: OVNKubernetes
+    clusterNetwork:
+    - cidr: {{ .Values.network.clusterCidr }}
+    serviceNetwork:
+    - cidr: {{ .Values.network.serviceCidr }}
+  platform:
+    type: KubeVirt
+    kubevirt:
+      baseDomainPassthrough: true
+  pullSecret:
+    name: pullsecret-cluster-{{ .Values.clusterName }}
+  sshKey:
+    name: sshkey-cluster-{{ .Values.clusterName }}
+  secretEncryption:
+    type: aescbc
+    aescbc:
+      activeKey:
+        name: {{ .Values.clusterName }}-etcd-encryption-key
+  release:
+    image: quay.io/openshift-release-dev/ocp-release:{{ .Values.ocpVersion }}
+  configuration:
+    proxy:
+      httpProxy: {{ .Values.proxy.http | default "" }}
+      httpsProxy: {{ .Values.proxy.https | default "" }}
+      noProxy: {{ .Values.proxy.noProxy | default "" }}
+  services:
+  - service: OAuthServer
+    servicePublishingStrategy:
+      type: Route
+  - service: OIDC
+    servicePublishingStrategy:
+      type: Route
+  - service: Konnectivity
+    servicePublishingStrategy:
+      type: Route
+  - service: Ignition
+    servicePublishingStrategy:
+      type: Route
+  - service: APIServer
+    servicePublishingStrategy:
+      type: LoadBalancer

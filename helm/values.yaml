@@ -1,0 +1,32 @@
+# Default values for hcp-baremetal-fleet.
+# These values act as defaults and will be overridden by files in clusters/*.yaml
+
+clusterName: "default-cluster"
+ocpVersion: "4.20.21-multi"
+channel: "fast-4.20"
+clusterSet: "default"
+
+dns:
+  baseDomain: "apps.mydomain.local"
+
+etcd:
+  storageClass: "ocs-storagecluster-ceph-rbd"
+  size: "8Gi"
+
+workerReplicas: 3
+
+compute:
+  cores: 4
+  memory: "16Gi"
+  diskSize: "120Gi"
+  storageClass: "ocs-storagecluster-ceph-rbd"
+
+network:
+  clusterCidr: "10.128.0.0/14"
+  serviceCidr: "172.30.0.0/16"
+  vlan: "vlan-100"
+
+proxy:
+  http: ""
+  https: ""
+  noProxy: ""

@@ -1,0 +1,31 @@
+apiVersion: hypershift.openshift.io/v1beta1
+kind: NodePool
+metadata:
+  name: {{ .Values.clusterName }}-worker-pool
+  namespace: clusters
+spec:
+  arch: amd64
+  clusterName: {{ .Values.clusterName }}
+  replicas: {{ .Values.workerReplicas | default 3 }}
+  management:
+    autoRepair: true
+    upgradeType: Replace
+  release:
+    image: quay.io/openshift-release-dev/ocp-release:{{ .Values.ocpVersion }}
+  platform:
+    type: KubeVirt
+    kubevirt:
+      compute:
+        cores: {{ .Values.compute.cores | default 8 }}
+        memory: {{ .Values.compute.memory | default "32Gi" }}
+      attachDefaultNetwork: false
+      rootVolume:
+        type: Persistent
+        persistent:
+          size: {{ .Values.compute.diskSize | default "120Gi" }}
+          accessModes:
+            - ReadWriteMany
+          storageClass: {{ .Values.compute.storageClass }}
+          volumeMode: Block
+      additionalNetworks:
+        - name: openshift-cnv/{{ .Values.network.vlan }}

@@ -5,17 +5,11 @@ metadata:
   namespace: openshift-gitops
 spec:
   description: "Enterprise Project for Hosted Control Planes Fleet Management"
-  # 1. Restrict the source repository
   sourceRepos:
-    - 'https://github.com/your-org/ocp-gitops-fleet.git'
-  # 2. Restrict the destination cluster and namespaces
+    - 'https://github.com/SerenaFlocco/ocp-gitops-fleet.git'
   destinations:
-    - namespace: 'clusters'
+    - namespace: '*'
       server: 'https://kubernetes.default.svc'
-    - namespace: 'ocp-*' 
-      server: 'https://kubernetes.default.svc'
-  # 3. Allow cluster-scoped resources (required for ManagedCluster ACM registration)
   clusterResourceWhitelist:
     - group: 'cluster.open-cluster-management.io'
       kind: 'ManagedCluster'
-

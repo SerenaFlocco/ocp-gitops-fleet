@@ -8,17 +8,20 @@ spec:
     - git:
         repoURL: 'https://github.com/SerenaFlocco/ocp-gitops-fleet.git'
         revision: HEAD
-        directories:
-          - path: overlays/*
+        files:
+          - path: "clusters/*.yaml"
   template:
     metadata:
-      name: '{{path.basename}}'
+      name: '{{clusterName}}'
     spec:
       project: hcp-fleet-project
       source:
         repoURL: 'https://github.com/SerenaFlocco/ocp-gitops-fleet.git'
         targetRevision: HEAD
-        path: '{{path}}'
+        path: helm
+        helm: 
+          valueFiles:
+            - ../clusters/{{clusterName}}.yaml 
       destination:
         server: 'https://kubernetes.default.svc'
         namespace: clusters

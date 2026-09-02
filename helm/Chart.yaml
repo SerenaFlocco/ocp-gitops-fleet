@@ -1,0 +1,5 @@
+apiVersion: v2
+name: hcp-baremetal-fleet
+description: Enterprise Helm Chart for Hosted Control Planes on KubeVirt
+version: 1.0.0
+
