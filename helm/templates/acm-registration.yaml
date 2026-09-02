@@ -16,3 +16,14 @@ metadata:
 spec:
   clusterName: {{ .Values.clusterName }}
   clusterNamespace: {{ .Values.clusterName }}
+  clusterLabels:
+    cloud: BareMetal
+    vendor: OpenShift
+  applicationManager:
+    enabled: true
+  policyController:
+    enabled: true
+  searchCollector:
+    enabled: true
+  certPolicyController:
+    enabled: true
