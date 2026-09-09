@@ -38,9 +38,6 @@ spec:
     name: sshkey-cluster-{{ .Values.clusterName }}
   secretEncryption:
     type: aescbc
-    aescbc:
-      activeKey:
-        name: {{ .Values.clusterName }}-etcd-encryption-key
   release:
     image: quay.io/openshift-release-dev/ocp-release:{{ .Values.ocpVersion }}
   configuration:

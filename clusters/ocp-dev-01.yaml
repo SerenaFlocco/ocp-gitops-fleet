@@ -16,6 +16,16 @@ network:
   clusterCidr: 10.128.0.0/14
   serviceCidr: 172.30.0.0/16
   vlan: vlan-123
+# Optional: uncomment and edit the following section to add node labels and/or taints
+#nodeLabels:
+#  node-role.kubernetes.io/infra: ""
+#taints:
+#  - effect: NoSchedule
+#    key: infra
+#    value: reserved
+#  - effect: NoExecute
+#    key: infra
+#    value: reserved
 proxy:
   http: http://proxy.enterprise.lan:8080
   https: http://proxy.enterprise.lan:8080
