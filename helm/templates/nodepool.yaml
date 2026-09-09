@@ -29,12 +29,11 @@ spec:
           volumeMode: Block
       additionalNetworks:
         - name: openshift-cnv/{{ .Values.network.vlan }}
-      {{ if .Values.nodeLabels }}      
-      nodeLabels: 
-        {{- toYaml .Values.nodeLabels | nindent 4 }} 
-      {{ end }} 
-      {{ if .Values.taints }} 
-      taints: 
-        {{- toYaml .Values.taints | nindent 4 }} 
-      {{ end }}
-
+  {{- if .Values.nodeLabels }}
+  nodeLabels:
+{{ toYaml .Values.nodeLabels | indent 4 }}
+  {{- end }}
+  {{- if .Values.taints }}
+  taints:
+{{ toYaml .Values.taints | indent 4 }}
+  {{- end }}
